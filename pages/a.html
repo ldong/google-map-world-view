@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        /* width: 2000px; */
+        /* max-width: 1024px; */
+        /* height: 500px; */
+        /* min-width: 960px; */
+        width: 100%;
+        min-width: 1000px;
+        height: 100%;
+        max-height: 1024px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'));
+
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+          zoomChangeBoundsListener = google.maps.event.addListener(map, 'bounds_changed', function(event) {
+            if (this.getZoom() > 10) // Change max/min zoom here
+              this.setZoom(10);
+
+            google.maps.event.removeListener(zoomChangeBoundsListener);
+          });
+        });
+
+        var listener = google.maps.event.addListener(map, "idle", function() {
+          if (map.getZoom() > 16){
+            map.setZoom(16);
+          }
+          google.maps.event.removeListener(listener);
+        });
+
+        var top = 79.81230227;
+        var left = -175.25390625;
+        var right = -40.17887331;
+        var bottom = 168.57421875;
+
+        var allowedBounds = new google.maps.LatLngBounds();
+        var topLeft = new google.maps.LatLng(top, left);              // top left corner of map
+        var bottomRight = new google.maps.LatLng(right, bottom);      // bottom right corner
+
+        allowedBounds.extend(topLeft);
+        allowedBounds.extend(bottomRight);
+
+        // var k = 1;
+        // var n = allowedBounds.getNorthEast().lat() - k;
+        // var e = allowedBounds.getNorthEast().lng() - k;
+        // var s = allowedBounds.getSouthWest().lat() + k;
+        // var w = allowedBounds.getSouthWest().lng() + k;
+        // var neNew = new google.maps.LatLng(n, e);
+        // var swNew = new google.maps.LatLng(s, w);
+        // boundsNew = new google.maps.LatLngBounds(swNew, neNew);
+        // map.fitBounds(boundsNew);
+
+        map.fitBounds(allowedBounds);
+        // map.setZoom(4);
+        // map.setCenter({lat: 39.36, lng: 4.57});
+
+        zoomChangeBoundsListener = google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+          console.log('bounds changed');
+          if (this.getZoom()){
+            this.setZoom(2);
+            // this.setCenter({lat: 39.36, lng: 4.57});
+          }
+        });
+
+        // setTimeout(function(){google.maps.event.removeListener(zoomChangeBoundsListener)}, 2000);
+
+        google.maps.event.addDomListener(window, "resize", function() {
+          console.log('window resized');
+          var center = map.getCenter();
+          var zoomLevel = 2;
+          var browserWidth = window.innerWidth;
+          if (browserWidth < 1000) {
+            zoomLevel = 2;
+          } else if (browserWidth > 1000 && browserWidth <= 1280) {
+            zoomLevel = 2;
+          } else if (browserWidth > 1280 &&  browserWidth <= 1536) {
+            zoomLevel = 3;
+          } else if (browserWidth > 1536 &&  browserWidth <= 1792) {
+            zoomLevel = 4;
+          } else if (browserWidth > 1792 &&  browserWidth <= 2560) {
+            zoomLevel = 5;
+          } else {
+            zoomLevel = 1;
+          }
+
+          map.fitBounds(allowedBounds);
+          map.setZoom(zoomLevel);
+          // google.maps.event.trigger(map, "resize");
+          // map.setCenter(center);
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0NTYM1m6U5eVydRf72w7vBp6dylwpu88&callback=initMap" async defer></script>
+</body>
+</html>
