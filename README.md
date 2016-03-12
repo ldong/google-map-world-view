@@ -37,3 +37,4 @@ API key: AIzaSyB0NTYM1m6U5eVydRf72w7vBp6dylwpu88
 15. [Asynchronous for cycle in JavaScript](http://stackoverflow.com/questions/4288759/asynchronous-for-cycle-in-javascript)
 16. [Google Maps with fitBounds don't zoom](http://stackoverflow.com/questions/8565539/google-maps-with-fitbounds-dont-zoom)
 17. [Limiting the range](http://econym.org.uk/gmap/range.htm) and [demo](http://econym.org.uk/gmap/example_range.htm)
+18. [Events | Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/reference?csw=1#Map)
